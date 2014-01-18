@@ -6,7 +6,7 @@ module.exports = function(grunt){
     // ---------------------------------------------------------------------- //
     watch: {
       jshint: {
-        files: ['Gruntfile.js', 'app/**/*.js'],
+        files: ['app/js/**/*.js', 'Gruntfile.js'],
         tasks: ['jshint:all', 'copy:js']
       },
       jade: {
@@ -14,11 +14,15 @@ module.exports = function(grunt){
         tasks: ['jade:build']
       },
       less: {
-        files: ['app/**/*.less'],
+        files: ['app/css/**/*.less'],
         tasks: ['less:build']
       },
+      css: {
+        files: ['app/css/**/*.css'],
+        tasks: ['copy:css']
+      },
       media: {
-        files: ['app/media/**'],
+        files: ['app/media/**/*'],
         tasks: ['copy:media']
       }
     },
@@ -30,20 +34,26 @@ module.exports = function(grunt){
       },
       all: [
         'Gruntfile.js',
-        'app/**/*.js'
+        'app/js/**/*.js'
       ]
     },
     // ---------------------------------------------------------------------- //
     copy: {
       js: {
-        cwd: 'app',
+        cwd: 'app/js',
         src: ['**/*.js'],
-        dest: 'public',
+        dest: 'public/js',
+        expand: true
+      },
+      css: {
+        cwd: 'app/css',
+        src: ['**/*.css'],
+        dest: 'public/css',
         expand: true
       },
       media: {
         cwd: 'app/media',
-        src: ['**'],
+        src: ['**/*'],
         dest: 'public/media',
         expand: true
       }
@@ -64,9 +74,9 @@ module.exports = function(grunt){
     less: {
       build: {
         files: [{
-          cwd: 'app',
+          cwd: 'app/css',
           src: '**/*.less',
-          dest: 'public',
+          dest: 'public/css',
           ext: '.css',
           expand: true
         }]
