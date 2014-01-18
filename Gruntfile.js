@@ -6,8 +6,8 @@ module.exports = function(grunt){
     // ---------------------------------------------------------------------- //
     watch: {
       jshint: {
-        files: ['app/js/**/*.js', 'Gruntfile.js'],
-        tasks: ['jshint:all', 'copy:js']
+        files: ['app/js/source/**/*.js', 'Gruntfile.js'],
+        tasks: ['jshint:all', 'copy:jssource']
       },
       jade: {
         files: ['app/**/*.jade'],
@@ -17,11 +17,15 @@ module.exports = function(grunt){
         files: ['app/css/**/*.less'],
         tasks: ['less:build']
       },
-      css: {
+      copyjs: {
+        files: ['app/js/vendor/**/*.js'],
+        tasks: ['copy:jsvendor']
+      },
+      copycss: {
         files: ['app/css/**/*.css'],
         tasks: ['copy:css']
       },
-      media: {
+      copymedia: {
         files: ['app/media/**/*'],
         tasks: ['copy:media']
       }
@@ -39,10 +43,16 @@ module.exports = function(grunt){
     },
     // ---------------------------------------------------------------------- //
     copy: {
-      js: {
-        cwd: 'app/js',
+      jssource: {
+        cwd: 'app/js/source',
         src: ['**/*.js'],
-        dest: 'public/js',
+        dest: 'public/js/source',
+        expand: true
+      },
+      jsvendor: {
+        cwd: 'app/js/vendor',
+        src: ['**/*.js'],
+        dest: 'public/js/vendor',
         expand: true
       },
       css: {
@@ -95,7 +105,7 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('build', ['clean', 'jshint:all', 'copy:js', 'jade:build', 'less:build', 'copy:media']);
+  grunt.registerTask('build', ['clean', 'jshint:all', 'copy:jssource', 'jade:build', 'less:build','copy:jsvendor', 'copy:css', 'copy:media']);
   grunt.registerTask('default', ['build', 'watch']);
 };
 
